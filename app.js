@@ -22,7 +22,7 @@ dotenv.config();  // dotenv 사용때 필요함.
 app.set('port', process.env.PORT || 3000);
 
 
-app.use('/', express.static(path.join(__dirname)));
+app.use('/', express.static(path.join(__dirname)));  // 주소창에 '/' 다음 입력된 것이 현재 폴더 안에 있으면 그 파일을 불러다줌.
 
 const indexRouter = require('./routes');
 app.use('/routes',(req,res)=>{
