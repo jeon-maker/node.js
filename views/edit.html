@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="timeline">
+    <form id="edit-form" action="/edit" method="post">
+      <div class="input-group">
+        <label for="edit-nick">닉네임</label>
+        <input id="edit-nick" type="text" name="edit_nick"></div>
+      </div>
+      <button id="edit-btn" type="submit" class="btn">정보 수정하기.</button>
+    </form>
+  </div>
+
+{% endblock %}
+{% block script %}
+  <script>
+    window.onload = () => {
+      if (new URL(location.href).searchParams.get('error')) {
+        alert('이미 존재하는 닉네임입니다.');
+      }}
+   
+  </script>
+{% endblock %}
