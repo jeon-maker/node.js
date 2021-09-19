@@ -49,7 +49,7 @@ module.exports = class User extends Sequelize.Model {
       as: 'Followings', //user.addFollowings 가능
       through: 'Follow',
     });  
-   
+    db.User.belongsToMany(db.Post, {through :'Like'});
   }  // N : M 관계에서는 모델 이름과 컬럼 이름을 따로 정해야함. , 같은 테이블에서는 as 옵션도 필요함 .as 는 foreignkey 와 반대되는 모델을 가리킴.
   
 };

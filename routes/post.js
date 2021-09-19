@@ -66,16 +66,43 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
 });
 
 
-router.post('/:userId/delete', async (req,res,next)=>{
-  
+router.delete('/:id', async(req,res,next)=>{
   try{
-    await Post.destroy({where : { userId : req.params.userId}}); //userId(SQL로 확인 가능)
-    res.send('Ok');
-  } catch(error){
-    res.send('실패');
+    await Post.destroy({where :{ id : req.params.id, userId: req.user.id}});
+    res.send('OK');
+  }catch(error){
     console.error(error);
     next(error);
   }
 })
+router.post('/:id/like',async (req,res,nex)=>{
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });//내가 누군지를 찾고
+    if (user) {
+      await Post.addLike([parseInt(req.params.id, 10)]); //게시글아이디
+      res.send('좋아요를 눌렀습니다.');
+    } else {
+      res.status(404).send('실패');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 
+});
+router.delete('/:id/like',async(req,res,next)=>{
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });//내가 누군지를 찾고
+    if (user) {
+      await Post.removeLike([parseInt(req.params.id, 10)]); //게시글아이디
+      res.send('좋아요를 취소했습니다.');
+    } else {
+      res.status(404).send('실패');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+
+});
 module.exports = router;

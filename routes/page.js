@@ -22,16 +22,18 @@ router.get('/edit', isLoggedIn, (req, res) => {
 router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: '회원가입 - NodeBird' });
 });
-
+//메인페이지
 router.get('/', async (req, res, next) => {
   try {
     const posts = await Post.findAll({
       include: {
         model: User,
-        attributes: ['id', 'nick'],
+        attributes: ['id', 'nick'],      
+
       },
       order: [['createdAt', 'DESC']],
     });
+    console.log(posts);
     res.render('main', {
       title: 'NodeBird',
       twits: posts,
